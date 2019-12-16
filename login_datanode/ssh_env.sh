@@ -1,0 +1,16 @@
+export JAVA_HOME=/usr/lib/jvm/java-8-openjdk-amd64/
+export HADOOP_VERSION=2.7.1
+export HADOOP_PREFIX=/opt/hadoop-$HADOOP_VERSION
+export HADOOP_CONF_DIR=/etc/hadoop
+export MULTIHOMED_NETWORK=1
+export USER=root
+export PATH=$HADOOP_PREFIX/bin/:$PATH
+export SCALA_VERSION=2.11.12
+export SCALA_HOME=/opt/scala-$SCALA_VERSION
+export PATH=$SCALA_HOME/bin/:$PATH
+export SPARK_VERSION=2.4.4
+export SPARK_HOME=/opt/spark-$SPARK_VERSION-bin-hadoop2.7
+export PATH=$SPARK_HOME/bin/:$PATH
+export LD_LIBRARY_PATH=$HADOOP_PREFIX/lib/native
+export PYSPARK_PYTHON=python3.5
+export PATH=/usr/local/nvidia/bin:/usr/local/cuda/bin/:$PATH

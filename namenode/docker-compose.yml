@@ -1,0 +1,43 @@
+version: "2"
+
+services:
+  namenode:
+    image: namenode:cpu-spark2.4.4-hadoop2.7.1-java8
+    container_name: namenode
+    extra_hosts:
+      - "namenode:10.32.0.1"
+      - "datanode1:10.35.0.1"
+      - "datanode2:10.36.0.1"
+      - "historyserver:10.32.0.1"
+      - "resourcemanager:10.32.0.1"
+      - "datanode3:10.37.0.1"
+    hostname: namenode
+    entrypoint: bash -c " /etc/init.d/ssh start && tail -f /dev/null"
+    tty: true
+    ports:
+    - "9999:50070"
+    - "8088:8088"
+    - "19888:19888"
+    - "10020:10020"
+    - "8188:8188"
+    - "8020:8020"
+    - "8080:8080"
+    - "4040:4040"
+    volumes:
+      - hadoop_namenode:/hadoop/dfs/name
+      - ./entrypoint.sh:/entrypoint.sh
+      - cluster-nas-env:/mnt
+
+    environment:
+      - LANG=C.UTF-8
+      - TZ=Asia/Shangha
+    env_file:
+      - ./hadoop.env
+
+volumes:
+  hadoop_namenode:
+  cluster-nas-env:
+     driver_opts:
+       type: "cifs"
+       device: //10.70.22.42/data_team
+       o: "username=data,password=tclbigdata19"
