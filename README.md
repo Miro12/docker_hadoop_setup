@@ -1,9 +1,67 @@
-# 当前
+# >>>>当前Cluster状况<<<<<
 
-# docker_hadoop_setup
- ## 1. add a Datanode
+## 1. cluster各节点
 
-### 1.1 datanode with CPU
+**namenode**: 10.101.100.1(weave ip:10.32.0.1)
+
+**datanode1(CPU)**: 10.101.100.2(weave ip:10.35.0.1)
+> 登录server 10.101.100.2： `ssh support@10.101.100.2`
+>
+> 进入container datanode1：`sudo docker exec -it datanode1 bash`
+
+**datanode2(CPU)**: 10.101.100.5(weave ip:10.36.0.1)
+> 登录server 10.101.100.5： `ssh support@10.101.100.5`
+>
+> 进入container datanode2：`sudo docker exec -it datanode2 bash`
+
+**datanode3(GPU)**: 未知(weave ip:10.37.0.1)
+
+> 登录server 10.101.100.1: `ssh support@10.101.100.1`
+>
+> 进入container datanode3:
+>
+```
+   cd login_datanode
+   sh login_datanode3.sh
+```
+
+
+
+## 2. cluster监测
+
+> **hadoop集群状况**: 10.101.100.1:9999
+>
+> **yarn界面**:       10.101.100.1:8088
+>
+> **spark集群状况**:  10.101.100.1:8080
+
+
+
+# >>>>>Cluster启动与停止<<<<<
+
+## 1. 启动/停止hadoop集群
+
+在namenode内执行：
+```
+cd /opt/hadoop-2.7.1
+./sbin/start-all.sh #启动
+./sbin/stop-all.sh #停止
+./sbin/mr-jobhistory-daemon.sh start historyserver #启动historyserver
+```
+
+## 2. 启动/停止spark集群
+
+在namenode内执行：
+```
+cd /opt/spark-2.4.4-bin-hadoop2.7
+./sbin/start-all.sh #启动
+./sbin/stop-all.sh #停止
+```
+
+
+# >>>>>增加新的datanode<<<<<
+
+## 1. datanode with CPU
 
 >*例如：增加datanode4*
 
