@@ -67,7 +67,7 @@ cd /opt/spark-2.4.4-bin-hadoop2.7
 
 * **step1:  生成datanode4的基础镜像**
 
-在Dockerfile所在文件夹下执行 docker build --no-cache -t {image_name} .
+复制datanode1文件夹，重命名为datanode4(下列操作都在此文件夹下进行)，在当前文件夹下执行 docker build --no-cache -t {image_name} .
 ```
 docker build --no-cache -t  datanode4:base-spark2.4.4-hadoop2.7.1-java . 
 ```
@@ -93,13 +93,24 @@ services:
     ports:
     - "8081:8081"
     - "8042:8042"
+    - "8888":"8888"
     volumes:
-+     - hadoop_datanode4:/hadoop/dfs/data
+    + - hadoop_datanode4:/hadoop/dfs/data
       - ./entrypoint.sh:/entrypoint.sh
+      - cluster-nas-env:/mnt
     env_file:
       - ./hadoop.env
+    environment:
+      - LANG=C.UTF-8
+      - TZ=Asia/Shanghai
+      
 volumes:
-+   hadoop_datanode4:
++ hadoop_datanode4:
+  cluster-nas-env:
+     driver_opts:
+       type: "cifs"
+       device: //10.70.22.42/data_team
+       o: "username=data,password=tclbigdata19"
 ```
 
 * **step3:  编辑weave_set.sh, 配置container的网络环境**
@@ -143,9 +154,14 @@ docker exec -it datanode4  bash
 docker commit {containerId} datanode4:cpu-spark2.4.4-hadoop2.7.1-java
 ```
 
-* **step8:  修改namenode的相关配置**
+* **step8:  修改相关配置**
 
-    e.g. 修改/opt/hadoop-2.7.1/etc/hadoop/slaves, 追加datanode4
+    1. 进入namenode的container，修改文件/opt/hadoop-2.7.1/etc/hadoop/slaves, /opt/spark-2.4.4-bin-hadoop2.7/conf/slaves
+    分别追加datanode4。
+    
+    注：此操作后需要commit当前image保存修改。
+    
+    2. 修改其他节点的docker-compose.yml,在extra_hosts下，追加 - "datanode4:10.38.0.1"。
 
 
 * **step9:  重复step2，修改docker-compose.yml部分语句**
@@ -161,3 +177,7 @@ docker commit {containerId} datanode4:cpu-spark2.4.4-hadoop2.7.1-java
 
     启动datanode4，即step4
     进入datanode4，即step5
+
+## 2. datanode with GPU
+
+参考datanode3文件夹内容及上述步骤。
