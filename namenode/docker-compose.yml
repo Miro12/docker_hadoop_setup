@@ -30,7 +30,7 @@ services:
 
     environment:
       - LANG=C.UTF-8
-      - TZ=Asia/Shangha
+      - TZ=Asia/Shanghai
     env_file:
       - ./hadoop.env
 
