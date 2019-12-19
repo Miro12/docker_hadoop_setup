@@ -1,0 +1,46 @@
+version: "2.3"
+
+services:
+  datanode3:
+    image: datanode3:gpu-spark2.4.4-hadoop2.7.1-java8-cuda10.0
+    container_name: datanode3
+    hostname: datanode3
+    runtime: nvidia
+    extra_hosts:
+      - "namenode:10.32.0.1"
+      - "datanode1:10.35.0.1"
+      - "datanode2:10.36.0.1"
+      - "resourcemanager:10.32.0.1"
+      - "historyserver:10.32.0.1"
+      - "datanode3:10.37.0.1"
+    entrypoint: bash -c " /etc/init.d/ssh start && tail -f /dev/null"
+    tty: true
+    ports:
+    - "8081:8081"
+    - "8042:8042"
+    - "18888:8888"  
+    volumes:
+      - /home/hadoop:/hadoop/dfs/data
+      - ./entrypoint.sh:/entrypoint.sh
+      - cluster-nas-env:/mnt
+      - data-volume:/root
+    env_file:
+      - ./hadoop.env
+    environment:
+      - LANG=C.UTF-8
+      - TZ=Asia/Shanghai
+        
+volumes:
+  data-volume:
+    driver: local
+    driver_opts:
+      type: none
+      o: bind
+      device: ${HOME}/project-data/hadoop
+
+  cluster-nas-env:
+    driver_opts:
+      type: "cifs"
+      device: //10.70.22.42/data_team
+      o: "username=data,password=tclbigdata19"
+#  hadoop_datanode3:
