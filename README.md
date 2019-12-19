@@ -188,3 +188,19 @@ docker commit {containerId} datanode4:cpu-spark2.4.4-hadoop2.7.1-java
 ## 2. datanode with GPU
 
 参考datanode3文件夹内容及上述步骤。
+
+
+# >>>>>常见问题<<<<<
+
+### 1. 执行login_datanode.sh登录datanode3时报错：
+
+```
+ssh:connect to host 10.37.0.1 
+port22:No route to host
+```
+在datanode3的host机上，若`docker ps`显示datanode3仍在运行，则在ddatanode3文件夹下：
+```
+weave reset
+sh weave_set.sh
+```
+之后检查hadoop及spark节点运行情况。
