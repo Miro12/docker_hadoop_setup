@@ -25,7 +25,7 @@ services:
       - ./hadoop.env
     environment:
       - LANG=C.UTF-8
-      - TZ=Asia/Shangha
+      - TZ=Asia/Shanghai
 
 volumes:
   hadoop_datanode1:
