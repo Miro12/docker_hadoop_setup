@@ -12,6 +12,7 @@ RUN apt-get update && apt-get install -y \
     vim \
     ssh \
     openssh-server \ 
+    tzdata \
     && rm -rf /var/lib/apt/lists/*
 
 RUN /etc/init.d/ssh start \
