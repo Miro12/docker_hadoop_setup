@@ -3,6 +3,9 @@
 ## 1. cluster各节点
 
 **namenode**: 10.101.100.1(weave ip:10.32.0.1)
+> 登录server 10.101.100.1： `ssh support@10.101.100.1`
+>
+> 进入container namenode：`sudo docker exec -it namenode bash`
 
 **datanode1(CPU)**: 10.101.100.2(weave ip:10.35.0.1)
 > 登录server 10.101.100.2： `ssh support@10.101.100.2`
@@ -48,6 +51,8 @@ cd /opt/hadoop-2.7.1
 ./sbin/stop-all.sh #停止
 ./sbin/mr-jobhistory-daemon.sh start historyserver #启动historyserver
 ```
+下图为hadoop各节点状况，若有节点dead，则用上述启动命令开启。
+![image](https://github.com/Miro12/docker_hadoop_setup/raw/master/imgs/hadoop_datanode.png)
 
 ## 2. 启动/停止spark集群
 
@@ -57,6 +62,8 @@ cd /opt/spark-2.4.4-bin-hadoop2.7
 ./sbin/start-all.sh #启动
 ./sbin/stop-all.sh #停止
 ```
+下图为spark各节点状况，若有节点dead，则用上述启动命令开启。
+![image](https://github.com/Miro12/docker_hadoop_setup/raw/master/imgs/spark_worker.png)
 
 
 # >>>>>增加新的datanode<<<<<
